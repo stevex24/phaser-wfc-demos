@@ -110,5 +110,13 @@ export class IllusionWorld extends Phaser.Scene {
   shade(hex, delta) {
     return shade(hex, delta);
   }
+  update(time, delta) {
+  // Step 4A: continuous redraw loop (no visual change intended)
+  this.redraw?.(time, delta);
+  this.drawWorld?.(time, delta);
+  this.rebuildGraphics?.(time, delta);
+  this.draw?.(time, delta);
+  }  
 }
+
 
