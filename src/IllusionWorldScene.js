@@ -6,6 +6,11 @@ import { shade, hash2 } from "./util.js";
 
 // Animation clock (seconds). Updated every frame; unused for now.
 let animTime = 0;
+// Expose clock to rendering code without adding new state.
+export function getAnimTime() {
+  return animTime;
+}
+
 
 
 export class IllusionWorld extends Phaser.Scene {
@@ -118,10 +123,6 @@ export class IllusionWorld extends Phaser.Scene {
   // Animation clock (seconds). Updated every frame; unused for now.
   animTime = time / 1000;
 
-  // Expose clock to rendering code without adding new state.
-export function getAnimTime() {
-  return animTime;
-}
 
   // Step 4A: continuous redraw loop (no visual change intended)
   this.redraw?.(time, delta);
