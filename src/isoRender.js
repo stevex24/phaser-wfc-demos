@@ -31,6 +31,14 @@ export function drawIso(scene, useEscher) {
       let cy = isoY(x, y);
 
       let lift = useEscher ? scene.heightMap[y][x] : 0;
+
+      if (useEscher) {
+        // Step 4C: extremely subtle Escher-only height shimmer (±1–2 px)
+        const t = (scene.time?.now ?? 0) / 1000; // seconds; safe if time plugin exists
+        const phase = x * 0.73 + y * 1.31;      // deterministic per-tile phase
+        lift += 1.5 * Math.sin(t * 1.0 + phase);
+      }
+
       cy -= lift;
 
       // --- top face ---
