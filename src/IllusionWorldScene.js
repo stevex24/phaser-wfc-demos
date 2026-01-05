@@ -4,6 +4,10 @@ import { buildHeightMap } from "./heightMap.js";
 import { renderWorld } from "./isoRender.js";
 import { shade, hash2 } from "./util.js";
 
+// Animation clock (seconds). Updated every frame; unused for now.
+let animTime = 0;
+
+
 export class IllusionWorld extends Phaser.Scene {
   constructor() {
     super("IllusionWorld");
@@ -111,12 +115,26 @@ export class IllusionWorld extends Phaser.Scene {
     return shade(hex, delta);
   }
   update(time, delta) {
+  // Animation clock (seconds). Updated every frame; unused for now.
+  animTime = time / 1000;
+
+  // Expose clock to rendering code without adding new state.
+export function getAnimTime() {
+  return animTime;
+}
+
   // Step 4A: continuous redraw loop (no visual change intended)
   this.redraw?.(time, delta);
   this.drawWorld?.(time, delta);
   this.rebuildGraphics?.(time, delta);
   this.draw?.(time, delta);
-  }  
+    // Fallback: if no redraw hook exists, still render each frame
+  if (!this.redraw && !this.drawWorld && !this.rebuildGraphics && !this.draw) {
+    renderWorld(this);
+  }
+
+}
+
 }
 
 
